@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from youtube_transcript_api import YouTubeTranscriptApi
+import requests
+from bs4 import BeautifulSoup
 import re
+
 
 app = FastAPI()
 
@@ -21,3 +24,45 @@ async def root(video_link, language):
 
 
     return {newArrayString}
+
+@app.get("/search/")
+async def root(param):
+    def extract_video_ids(html_content):
+        soup = BeautifulSoup(html_content, 'lxml')
+
+        video_ids = []
+
+        for match in re.findall(r'"videoId":"(\w+)"', html_content):
+            video_ids.append(match)
+
+        return video_ids
+
+    def get_ids(response):
+        if isinstance(response.content, bytes):
+            response_content = response.content.decode('utf-8')
+        else:
+            response_content = response.content
+
+        video_ids = extract_video_ids(response_content)
+        seen_items = set()  
+        unique_list = []
+
+        for item in video_ids:
+            if item not in seen_items: 
+                seen_items.add(item)  
+                unique_list.append(item) 
+
+        return(unique_list[:6])
+
+
+    url = "https://youtube.com/results?search_query="+param 
+    print(url)
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        result = get_ids(response) 
+        return result
+    else:
+        return(f"Failed to access URL: {response.status_code}")
+
+
