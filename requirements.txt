@@ -1,0 +1,3 @@
+uvicorn
+fastapi[all]
+youtube_transcript_api 
