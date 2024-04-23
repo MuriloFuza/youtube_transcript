@@ -31,7 +31,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.service=portainer"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.localhost`) && Path(`/portainer`)"
+      - "traefik.http.routers.portainer.rule=Host(`38.242.210.203`) && Path(`/portainer`)"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     volumes:
       - data:/data
