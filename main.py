@@ -3,6 +3,23 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import requests
 from bs4 import BeautifulSoup
 import re
+from fastapi import FastAPI
+import sentry_sdk
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+sentry_sdk.init(
+    dsn=os.getenv('DNS-SENTRY'),
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
 
 
 app = FastAPI()

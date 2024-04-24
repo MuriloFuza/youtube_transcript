@@ -3,3 +3,4 @@ fastapi[all]
 youtube_transcript_api 
 bs4
 lxml
+sentry-sdk[fastapi]
