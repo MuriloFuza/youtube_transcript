@@ -69,7 +69,7 @@ async def root(param):
                 seen_items.add(item)  
                 unique_list.append(item) 
 
-        return(unique_list[:6])
+        return(unique_list[:1])
 
 
     url = "https://youtube.com/results?search_query="+param 
