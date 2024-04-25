@@ -8,6 +8,7 @@ import sentry_sdk
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 sentry_sdk.init(
@@ -21,19 +22,20 @@ sentry_sdk.init(
     profiles_sample_rate=1.0,
 )
 
-
 app = FastAPI()
 
-
 @app.get("/transcript/")
-async def root(video_link, language):
+async def root(video_link):
 
     idYoutube = re.search(r"(?:(?:https?://)?(?:www\.)?youtube\.com/(?:(?:v/)?(?:watch\?v=)?|embed/))([\w-]+)", video_link).group(1)
 
     try:
-        youtube = YouTubeTranscriptApi.get_transcript(idYoutube, languages=[language])
+        youtube = YouTubeTranscriptApi.get_transcript(idYoutube, languages=['pt'])
     except: 
-        return {"Nao existem legendas neste idioma para este video"}
+        try:
+            youtube = YouTubeTranscriptApi.get_transcript(idYoutube, languages=['en'])
+        except:
+            return {"Nao existem legendas para este video"}
 
     newArrayString = ''
     for message in youtube: 

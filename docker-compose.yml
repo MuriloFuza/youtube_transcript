@@ -7,7 +7,7 @@ services:
       - "traefik.http.routers.app.service=app"
       - "traefik.http.routers.app.middlewares=app-stripprefix"
       - "traefik.http.middlewares.app-stripprefix.stripprefix.prefixes=/app"
-      - "traefik.http.routers.app.rule=Host(`38.242.210.203`) && PathPrefix(`/app`)"
+      - "traefik.http.routers.app.rule=Host(`127.0.0.1`) && PathPrefix(`/app`)"
       - "traefik.http.services.app.loadbalancer.server.port=8000"
 
   reverse-proxy:
